@@ -1,16 +1,10 @@
-// Description: Node Express REST API with Sequelize and SQLite CRUD Book
-// npm install express sequelize sqlite3
-// Run this file with node SequelizeSQLiteCRUDBook.js
-// Test with Postman
-
+require("dotenv").config();
 const express = require('express');
 const Sequelize = require('sequelize');
 const app = express();
 
-// parse incoming requests
 app.use(express.json());
 
-// create a connection to the database
 const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
     dialect: 'sqlite',
@@ -85,12 +79,11 @@ app.put('/books/:id', (req, res) => {
     });
 });
 
-// route to delete a book
 app.delete('/books/:id', (req, res) => {
     Book.findByPk(req.params.id).then(book => {
         if (!book) {
             res.status(404).send('Book not found');
-        } else {
+        }else {
             book.destroy().then(() => {
                 res.send({});
             }).catch(err => {
@@ -102,6 +95,5 @@ app.delete('/books/:id', (req, res) => {
     });
 });
 
-// start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
